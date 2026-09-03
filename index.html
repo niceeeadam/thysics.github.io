@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore projectile motion, forces, and vectors with interactive simulations that run entirely in your browser.">
+  <title>Physics Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./physics.js" defer></script>
+  <script src="./lab.js" defer></script>
+</head>
+<body>
+  <main class="lab-window">
+    <header class="topbar">
+      <h1>Physics Lab</h1>
+      <button id="reset" class="reset" aria-label="Reset experiment" title="Reset experiment">↺</button>
+    </header>
+    <nav class="tabs" aria-label="Physics topics">
+      <button class="tab active" data-mode="projectile" aria-pressed="true">Projectile</button>
+      <button class="tab" data-mode="forces" aria-pressed="false">Forces &amp; motion</button>
+      <button class="tab" data-mode="vectors" aria-pressed="false">Vectors</button>
+    </nav>
+    <div id="error" class="error" role="alert" hidden></div>
+    <div class="workspace">
+      <aside class="controls" aria-label="Experiment settings"><div id="controls"></div></aside>
+      <section class="experiment" aria-label="Visualization and results">
+        <div class="panel scene-panel">
+          <div class="scene-heading"><h2 id="scene-title">Trajectory</h2><div class="legend" id="legend"></div></div>
+          <div class="scene-wrap"><canvas id="scene" role="img" aria-label="Projectile trajectory plot. Numerical results are available below."></canvas><div id="scene-badge" class="scene-badge">Ready to launch</div></div>
+          <div id="transport" class="transport"><button id="play" class="primary" aria-label="Play animation">▶ Play</button><button id="rewind" class="icon-button" aria-label="Rewind animation" title="Rewind">↺</button><label for="timeline" class="sr-only">Simulation time</label><input id="timeline" type="range" min="0" max="1000" value="0" step="1"><output id="clock">0.00 / 0.00 s</output><label for="playback" class="sr-only">Playback speed</label><select id="playback" aria-label="Playback speed"><option value="0.25">0.25× speed</option><option value="0.5">0.5× speed</option><option value="1" selected>1× speed</option><option value="2">2× speed</option></select></div>
+          <div id="vector-caption" class="vector-caption" hidden>Place the second vector at the tip of the first. The resultant connects the start to the finish.</div>
+        </div>
+        <div id="metrics" class="metrics" aria-label="Calculated results"></div>
+        <details id="analysis" class="analysis">
+          <summary id="analysis-label">Graphs &amp; equations</summary>
+          <div id="charts" class="chart-row"><div class="panel chart-card"><h2 id="chart-title-a">Height over time <span>m</span></h2><canvas id="chart-a" role="img" aria-label="Height versus time"></canvas></div><div class="panel chart-card"><h2 id="chart-title-b">Vertical velocity <span>m/s</span></h2><canvas id="chart-b" role="img" aria-label="Vertical velocity versus time"></canvas></div></div>
+          <div id="vector-details" class="panel vector-details" hidden></div>
+          <div class="panel explanation"><h2 id="explain-title">Horizontal and vertical motion are independent.</h2><div id="equations" class="equations"></div><p id="assumptions" class="assumptions"></p></div>
+        </details>
+      </section>
+    </div>
+  </main>
+  <noscript>This app needs JavaScript enabled in your browser to display the interactive plots.</noscript>
+</body>
+</html>

@@ -1,91 +1,78 @@
-# Physics Lab
+# Physics Lab — GitHub Pages edition
 
-A Python program for exploring **projectile motion, forces and motion, and vectors** with interactive plots, animations, and numerical results.
+Interactive projectile motion, forces and motion, and vector visualizations. This edition runs entirely in your browser: **no Python server, packages, API keys, build step, or external services are required**.
 
-## Run it
+## Publish on GitHub Pages
 
-You need **Python 3.9 or newer** and a modern browser. No extra Python packages, downloads, accounts, or internet connection are needed after Python is installed.
+1. Extract `Physics_Lab_GitHub_Pages.zip`.
+2. Create a public GitHub repository, for example `physics-lab`.
+3. Upload the **contents** of the extracted folder to the repository's top level and commit them to `main`. Do not upload the ZIP itself or put the website inside another folder.
+4. Open the repository's **Settings → Pages**.
+5. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+6. Select **main**, choose **/ (root)**, and click **Save**.
+7. Wait for deployment to finish, then open the website link shown in the Pages settings. It normally has the form `https://YOUR-USERNAME.github.io/physics-lab/`.
 
-1. Extract the ZIP and open a terminal in the `physics_lab` folder.
-2. Run:
+Your repository should look like this:
 
-   ```sh
-   python3 app.py
-   ```
-
-   On Windows, use `py app.py` if `python3` is unavailable.
-
-3. The app opens in your default browser. If it does not, visit **http://127.0.0.1:8765**.
-4. Keep the terminal running while you use the app. Press **Ctrl+C** in the terminal to stop it.
-
-If the port is already in use, run `python3 app.py --port 0` to choose an available port. To start without opening a browser, add `--no-browser`.
-
-## Explore the three views
-
-Use the **− / + buttons** to adjust a setting, or type a value directly into its number field. Square green switches turn plot overlays on. The arrow in the black title bar resets the current experiment.
-
-The main view keeps the plot and key results visible. Open **Graphs & equations** for motion graphs and model assumptions, or **Components & equations** in the vector view for the component table and formulas.
-
-### Projectile motion
-
-- Adjust launch speed, angle, starting height, and gravity.
-- Play/pause the flight, rewind, scrub to a time, or adjust playback speed.
-- View the trajectory, velocity arrow, and horizontal/vertical velocity components.
-- Read horizontal range, maximum height above ground, flight time, and impact speed.
-- Compare height and vertical velocity graphs with a synchronized time marker.
-- Try ground launches, horizontal launches from a ledge, and Moon gravity.
-
-Angles are measured above +x; negative angles point downward. Gravity is a positive downward acceleration. The projectile is a point object with no air resistance; the ground is level at y = 0. A ground-level horizontal/downward launch has zero flight time. The app stops at ground contact and does not model bouncing. Spatial axes use equal scales; velocity arrows use their own scale.
-
-### Forces and motion
-
-- Change mass, a signed horizontal applied force, friction coefficients, initial velocity, and duration.
-- See the applied force, friction, normal force, and weight in a free-body diagram.
-- Follow the block on a position scale and inspect synchronized position and velocity graphs.
-- Read net force, acceleration, velocity, and position at the selected time.
-- Try static friction, sliding to a stop, and motion that reverses direction.
-
-This is a **one-dimensional model on a horizontal surface**, with constant applied force and Earth gravity (9.81 m/s²). It starts at x = 0. Positive means rightward. At rest, static friction balances the applied force up to μsN. During sliding, friction has magnitude μkN and opposes velocity. The coefficients must satisfy 0 ≤ μk ≤ μs. Stopping and reversal are solved analytically, so friction does not make a stopped block oscillate. All force arrows in the free-body diagram share one scale; the position strip uses a separate scale.
-
-### Vectors
-
-- Edit the x and y components of two vectors.
-- Switch between A + B and A − B.
-- See the head-to-tail construction, resultant, and optional resultant components.
-- Read components, magnitude, direction, dot product, and the angle between A and B.
-- Test perpendicular vectors and equal-and-opposite cancellation.
-
-The vector plot uses equal-scale axes and arbitrary, consistent units. Directions are counterclockwise from +x in [0°, 360°). A zero vector has no defined direction; the angle between two vectors is undefined if either is zero. The dot product and angle-between readouts always use the original A and B, even in subtraction mode.
-
-## Files and customization
-
-- `app.py`: standard-library local HTTP server and launcher. Listens only on 127.0.0.1.
-- `physics.py`: documented Python calculation functions, independent of the interface.
-- `index.html`, `styles.css`, `lab.js`: browser interface and canvas rendering. No external libraries, fonts, analytics, or CDNs.
-- `test_physics.py`: numerical and HTTP regression checks.
-
-The Python models produce exact sampled solutions. The browser interpolates position between samples and draws the results; it does not require a separate JavaScript physics engine. Stopping events are included as additional samples to preserve the transition between sliding and rest or reversal.
-
-You can use the models directly from another Python script:
-
-```python
-from physics import projectile, forces, vectors
-
-flight = projectile({"speed": 20, "angle": 45, "height": 0, "gravity": 9.81})
-print(flight["summary"])
-
-motion = forces({"mass": 2, "applied": 10, "mu_static": 0.3,
-                 "mu_kinetic": 0.2, "v0": 0, "duration": 8})
-print(motion["samples"][-1])
-
-result = vectors({"ax": 3, "ay": 0, "bx": 0, "by": 4, "operation": "add"})
-print(result["result"])  # magnitude 5; direction approximately 53.13 degrees
+```text
+index.html
+styles.css
+physics.js
+lab.js
+.nojekyll
+README.md
+tests/
+  physics.test.cjs
 ```
 
-Run the included tests from the program folder:
+The four website files (`index.html`, `styles.css`, `physics.js`, and `lab.js`) are required. The included empty `.nojekyll` file skips Jekyll processing; it may be hidden by your file manager. The site also works with the default processing if your upload omits it. The README and tests are optional for hosting.
+
+No GitHub Actions workflow is needed for this branch-based setup. The website uses relative asset paths, so it works both at a project URL such as `/physics-lab/` and at a site's root. You can name the repository something else without editing the code.
+
+[GitHub's publishing-source instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+
+## Try it locally
+
+Double-click **index.html** to open it in a modern browser. The extracted files work offline without starting a server. Keep the four website files together.
+
+You can also preview with any static HTTP server if you prefer. Python is optional for that:
 
 ```sh
-python3 -B -m unittest -v
+python3 -m http.server 8000
 ```
 
-The HTTP tests briefly open a loopback port on your computer. Invalid, out-of-range, or non-finite inputs are rejected with clear error messages.
+Then open `http://localhost:8000`.
+
+## Use the lab
+
+- Use the **− / + buttons** or type a value directly into a number field.
+- Green switches enable plot overlays. The title-bar arrow resets the current experiment.
+- Pick a preset from **Experiment** to explore a worked scenario.
+- For motion, play/pause, rewind, scrub time, or change playback speed.
+- Open **Graphs & equations** for motion graphs and model assumptions.
+- Open **Components & equations** in the vector view for the component table and formulas.
+
+### Models
+
+**Projectile motion:** a point object under uniform gravity, with no air resistance and level ground at y = 0. Input angles are measured above +x; negative angles point downward. The flight stops at ground contact. A horizontal or downward ground-level launch has zero flight time. Spatial axes use equal scales; velocity arrows have a separate scale.
+
+**Forces and motion:** one-dimensional motion on a horizontal surface with constant applied force and gravity of 9.81 m/s². Position starts at zero; positive means right. Static friction can balance force up to μsN. Sliding friction opposes velocity and has magnitude μkN, with 0 ≤ μk ≤ μs. Stopping and reversal are solved analytically. Force arrows share a scale; the position strip has a separate scale.
+
+**Vectors:** two-dimensional addition and subtraction in arbitrary, consistent units. Directions are counterclockwise from +x, in [0°, 360°). A zero vector has no direction, and the angle between two vectors is undefined if either is zero. The dot product and angle-between readouts always refer to the original A and B, including in subtraction mode.
+
+## Files and tests
+
+- `physics.js`: pure JavaScript calculations, ported from the original Python models.
+- `lab.js`: controls, plots, animation, and interpolation between sampled results.
+- `index.html` and `styles.css`: the minimal cream-and-black interface.
+- `tests/physics.test.cjs`: independent numerical regression tests.
+
+The calculations happen directly in the browser. There are no `/api/` requests, remote libraries, analytics, or CDN assets. Python is not included in this edition and is not required to run it.
+
+Optional developer tests, with Node.js 18 or newer:
+
+```sh
+node --test tests/physics.test.cjs
+```
+
+Node is only needed for these optional tests; visitors need only a browser.
